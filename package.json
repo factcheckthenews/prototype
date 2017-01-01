@@ -1,0 +1,31 @@
+{
+  "name": "fact-check-the-news",
+  "version": "1.0.0",
+  "description": "Fact Check the News API",
+  "main": "handler.js",
+  "scripts": {
+    "opensources": "curl --silent -o data/credible.json https://raw.githubusercontent.com/BigMcLargeHuge/opensources/master/credible/credible.json; curl --silent -o data/notCredible.json https://raw.githubusercontent.com/BigMcLargeHuge/opensources/master/notCredible/notCredible.json",
+    "test": "xo && ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/factcheckthenews/prototype.git"
+  },
+  "keywords": [
+    "Fact-Checker",
+    "News",
+    "Journalism"
+  ],
+  "author": "Fact Check the News",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/factcheckthenews/prototype/issues"
+  },
+  "homepage": "https://github.com/factcheckthenews/prototype#readme",
+  "devDependencies": {
+    "xo": "^0.17.1"
+  },
+  "dependencies": {
+    "data": "^0.6.1"
+  }
+}

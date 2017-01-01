@@ -1,0 +1,14 @@
+service: factcheckthenews-prototype 
+provider:
+  name: aws
+  runtime: nodejs4.3
+  memorySize: 128
+  stage: v1
+  region: us-east-1
+functions:
+  check:
+    handler: handler.check
+    events:
+      - http:
+          path: check
+          method: get
