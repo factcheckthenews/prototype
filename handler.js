@@ -12,8 +12,13 @@ module.exports.check = (event, context, callback) => {
 		statusCode: 200,
 		body: JSON.stringify({
 			url: articleUrl,
-			redFlags: (notCredibleSources[domain]) ? notCredibleSources[domain] : false,
-			credible: credibleSources.some(source => source.url === domain)
+			score: '¯\\_(ツ)_/¯',
+			meta: {
+				opensources: {
+					redFlag: (notCredibleSources[domain]) ? notCredibleSources[domain] : false,
+					credible: credibleSources.some(source => source.url === domain)
+				}
+			}
 		})
 	};
 
