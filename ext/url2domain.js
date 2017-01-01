@@ -4,7 +4,7 @@
  * Licensed under LGPL-3.0 (https://github.com/selfagency/bs-detector/blob/master/LICENSE)
  */
 
-module.exports = function url2Domain(url) {
+module.exports = url => {
 	if (url) {
 		url = url.toString().replace(/^(?:https?|ftp):\/\//i, '');
 		url = url.toString().replace(/^www\./i, '');
