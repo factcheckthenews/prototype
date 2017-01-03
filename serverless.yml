@@ -11,4 +11,4 @@ functions:
     events:
       - http:
           path: check
-          method: get
+          method: post
