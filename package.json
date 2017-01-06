@@ -4,7 +4,7 @@
   "description": "Fact Check the News API",
   "main": "handler.js",
   "scripts": {
-    "opensources": "curl --silent -o data/credible.json https://raw.githubusercontent.com/BigMcLargeHuge/opensources/master/credible/credible.json; curl --silent -o data/notCredible.json https://raw.githubusercontent.com/BigMcLargeHuge/opensources/master/notCredible/notCredible.json",
+    "opensources": "./opensources.sh",
     "test": "xo && ava"
   },
   "repository": {
