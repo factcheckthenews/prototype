@@ -19,10 +19,11 @@ module.exports.check = (event, context, callback) => {
 		},
 		body: JSON.stringify({
 			url: articleUrl,
-			score: '¯\\_(ツ)_/¯',
-			meta: {
+			score: '¯\\_(ツ)_/¯', // TODO: implement score
+			criteria: {
 				opensources: {
-					redFlag: (notCredibleSources[domain]) ? notCredibleSources[domain] : false,
+					flag: (notCredibleSources[domain]) ? true : false,
+					type: (notCredibleSources[domain]) ? notCredibleSources[domain].type : null,
 					credible: credibleSources.some(source => source.url === domain)
 				}
 			}
