@@ -1,6 +1,7 @@
 'use strict';
 
 const url2Domain = require('./ext/url2domain');
+const categorize = require('./ext/categorize');
 const credibleSources = require('./data/credible');
 const notCredibleSources = require('./data/notCredible');
 
@@ -23,7 +24,7 @@ module.exports.check = (event, context, callback) => {
 			criteria: {
 				opensources: {
 					flag: (notCredibleSources[domain]) ? true : false,
-					type: (notCredibleSources[domain]) ? notCredibleSources[domain].type : null,
+					type: (notCredibleSources[domain]) ? categorize(notCredibleSources[domain].type) : null,
 					credible: credibleSources.some(source => source.url === domain)
 				}
 			}
