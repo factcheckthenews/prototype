@@ -5,7 +5,7 @@ const credibleSources = require('./data/credible');
 const notCredibleSources = require('./data/notCredible');
 
 module.exports.check = (event, context, callback) => {
-	const origin = (event.queryStringParameters) ? event.queryStringParameters.__amp_source_origin : '*.factcheckthe.news';
+	const origin = (event.queryStringParameters) ? event.queryStringParameters.__amp_source_origin : '*';
 	const articleUrl = (event.queryStringParameters) ? event.queryStringParameters.url : '';
 	const domain = url2Domain(articleUrl);
 
