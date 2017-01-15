@@ -5,7 +5,7 @@ const credibleSources = require('./data/credible');
 const notCredibleSources = require('./data/notCredible');
 
 module.exports.check = (event, context, callback) => {
-	const origin = (event.queryStringParameters) ? event.queryStringParameters.__amp_source_origin : '*';
+	const origin = getOrigin(event.queryStringParameters);
 	const articleUrl = (event.queryStringParameters) ? event.queryStringParameters.url : '';
 	const domain = url2Domain(articleUrl);
 
@@ -32,3 +32,11 @@ module.exports.check = (event, context, callback) => {
 
 	callback(null, response);
 };
+
+/** @method
+ * @name getOrigin
+ * @param {Object} queryParams - Object with query parameters as keys
+ */
+function getOrigin(queryParams) {
+	return (queryParams && queryParams.__amp_source_origin) ? queryParams.__amp_source_origin : '*';
+}
