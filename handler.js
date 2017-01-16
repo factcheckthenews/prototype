@@ -1,5 +1,6 @@
 'use strict';
 
+const url = require('url');
 const url2Domain = require('./ext/url2domain');
 const categorize = require('./ext/categorize');
 const credibleSources = require('./data/credible');
@@ -26,7 +27,8 @@ module.exports.check = (event, context, callback) => {
 					flag: (notCredibleSources[domain]) ? true : false,
 					type: (notCredibleSources[domain]) ? categorize(notCredibleSources[domain].type) : null,
 					credible: credibleSources.some(source => source.url === domain)
-				}
+				},
+				https: isHTTPS(articleUrl)
 			}
 		})
 	};
@@ -34,10 +36,26 @@ module.exports.check = (event, context, callback) => {
 	callback(null, response);
 };
 
-/** @method
- * @name getOrigin
+/** @method getOrigin
+ * @description Parse out the host origin for CORS
  * @param {Object} queryParams - Object with query parameters as keys
  */
 function getOrigin(queryParams) {
 	return (queryParams && queryParams.__amp_source_origin) ? queryParams.__amp_source_origin : '*';
+}
+
+/** @method getProtocol
+ * @description Get the protocol out of the URL 
+ * @param {String} articleUrl - URL of the article
+ */
+function getProtocol(articleUrl) {
+	return url.parse(articleUrl).protocol;
+}
+
+/** @method isHTTPS
+ * @description Determine whether the URL is being served over HTTPS 
+ * @param {String} articleUrl - URL of the article
+ */
+function isHTTPS(articleUrl) {
+	return (getProtocol(articleUrl) == 'https:');
 }
