@@ -14,7 +14,7 @@ const category = {
 	caution: 'Caution'
 };
 
-/** @method 
+/** @method
  * @description Converts opensources classification type to friendly message
  * @param {String} input - opensources classification type
  */
