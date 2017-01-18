@@ -57,5 +57,5 @@ function getProtocol(articleUrl) {
  * @param {String} articleUrl - URL of the article
  */
 function isHTTPS(articleUrl) {
-	return (getProtocol(articleUrl) == 'https:');
+	return (getProtocol(articleUrl) === 'https:');
 }
