@@ -45,7 +45,7 @@ function getOrigin(queryParams) {
 }
 
 /** @method getProtocol
- * @description Get the protocol out of the URL 
+ * @description Get the protocol out of the URL
  * @param {String} articleUrl - URL of the article
  */
 function getProtocol(articleUrl) {
@@ -53,7 +53,7 @@ function getProtocol(articleUrl) {
 }
 
 /** @method isHTTPS
- * @description Determine whether the URL is being served over HTTPS 
+ * @description Determine whether the URL is being served over HTTPS
  * @param {String} articleUrl - URL of the article
  */
 function isHTTPS(articleUrl) {
