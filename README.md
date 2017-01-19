@@ -12,9 +12,17 @@ The motivation for this project is to raise awareness of credible vs. non-credib
 - `npm run opensources` to fetch the latest data from OpenSources
 - `serverless deploy` to deploy to AWS
 
+### Stage Variables
+
+The following [stage variables](http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-set-stage-variables-aws-console.html) 
+need to be configured in API Gateway to call 3rd-party APIs.
+
+- **WOT_API_KEY**: The Web of Trust API requires an API key.
+
 ## Credits
 
-This uses data from [OpenSources](http://www.opensources.co/), which powers the [B.S. Detector browser plugin](http://bsdetector.tech/)
+- Data from [OpenSources](http://www.opensources.co/), which powers the [B.S. Detector browser plugin](http://bsdetector.tech/)
+- Website reputation data comes from [Web of Trust](https://www.mywot.com/).
 
 ## License
 
