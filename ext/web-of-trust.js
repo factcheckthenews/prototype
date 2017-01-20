@@ -32,6 +32,19 @@ module.exports = {
 		// Pull the reputation information out of the API
 		// https://www.mywot.com/wiki/API#public_link_json2
 		const domain = Object.keys(wotResponse)[0];
+
+		if (!wotResponse[domain]['0']) {
+			// Bail if the response doesn't contain a reputation
+			return {
+				trustworthiness: {
+					reputation: null,
+					confidence: 0,
+					description: 'Unknown'
+				},
+				categories: []
+			};
+		}
+
 		const reputation = wotResponse[domain]['0'][0];
 		const confidence = wotResponse[domain]['0'][1];
 		const categories = Object.keys(wotResponse[domain].categories);
