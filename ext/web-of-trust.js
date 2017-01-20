@@ -37,7 +37,7 @@ module.exports = {
 			// Bail if the response doesn't contain a reputation
 			return {
 				trustworthiness: {
-					reputation: null,
+					reputation: 0,
 					confidence: 0,
 					description: 'Unknown'
 				},
