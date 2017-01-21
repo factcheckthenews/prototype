@@ -35,7 +35,7 @@ module.exports.check = (event, context, callback) => {
 							credible: credibleSources.some(source => source.url === domain)
 						},
 						https: isHTTPS(articleUrl),
-						webOfTrust: webOfTrust.formatResponse(wotData)
+						webOfTrust: webOfTrust.format(wotData)
 					}
 				})
 			};
