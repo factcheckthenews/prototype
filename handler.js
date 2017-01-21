@@ -1,18 +1,12 @@
 'use strict';
 
 const url = require('url');
-// Open Sources
-const url2Domain = require('./ext/url2domain');
-const categorize = require('./ext/categorize');
-const credibleSources = require('./data/credible');
-const notCredibleSources = require('./data/notCredible');
-// Web of Trust
+const openSources = require('./ext/open-sources');
 const webOfTrust = require('./ext/web-of-trust');
 
 module.exports.check = (event, context, callback) => {
 	const origin = getOrigin(event.queryStringParameters);
 	const articleUrl = (event.queryStringParameters) ? event.queryStringParameters.url : '';
-	const domain = url2Domain(articleUrl);
 
 	// Get reputation from Web of Trust
 	webOfTrust.getReputation(event.stageVariables.WOT_API_KEY, articleUrl)
@@ -30,9 +24,9 @@ module.exports.check = (event, context, callback) => {
 					score: '¯\\_(ツ)_/¯', // TODO: implement score
 					criteria: {
 						opensources: {
-							flag: (notCredibleSources[domain]) ? true : false,
-							type: (notCredibleSources[domain]) ? categorize(notCredibleSources[domain].type) : null,
-							credible: credibleSources.some(source => source.url === domain)
+							flag: openSources.isFlagged(articleUrl),
+							type: openSources.getReason(articleUrl),
+							credible: openSources.isCredible(articleUrl)
 						},
 						https: isHTTPS(articleUrl),
 						webOfTrust: webOfTrust.format(wotData)
