@@ -15,7 +15,7 @@ function fetchReputation(apiKey, articleUrl) {
 			hosts: url.parse(articleUrl).hostname + '/',
 			key: apiKey
 		},
-		headers: {'User-Agent': 'Request-Promise'},
+		headers: {'User-Agent': 'factcheckthe.news'},
 		json: true
 	};
 
