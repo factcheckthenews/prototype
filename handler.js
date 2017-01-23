@@ -1,16 +1,22 @@
 'use strict';
 
 const url = require('url');
+const Promise = require('bluebird');
 const openSources = require('./ext/open-sources');
 const webOfTrust = require('./ext/web-of-trust');
+const entityExtraction = require('./ext/entity-extraction');
 
 module.exports.check = (event, context, callback) => {
 	const origin = getOrigin(event.queryStringParameters);
 	const articleUrl = (event.queryStringParameters) ? event.queryStringParameters.url : '';
 
 	// Get reputation from Web of Trust
-	webOfTrust.getReputation(event.stageVariables.WOT_API_KEY, articleUrl)
-		.then(wotData => {
+	const wotPromise = webOfTrust
+		.getReputation(event.stageVariables.WOT_API_KEY, articleUrl);
+	const articlePromise = entityExtraction.getArticle(articleUrl);
+
+	Promise.all([wotPromise, articlePromise])
+		.spread(function (wotResponse, articleResponse) {
 			const response = {
 				statusCode: 200,
 				headers: {
@@ -29,7 +35,8 @@ module.exports.check = (event, context, callback) => {
 							credible: openSources.isCredible(articleUrl)
 						},
 						https: isHTTPS(articleUrl),
-						webOfTrust: webOfTrust.format(wotData)
+						webOfTrust: webOfTrust.format(wotResponse),
+						content: articleResponse
 					}
 				})
 			};
