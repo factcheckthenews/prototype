@@ -4,7 +4,8 @@ const url = require('url');
 const Promise = require('bluebird');
 const openSources = require('./ext/open-sources');
 const webOfTrust = require('./ext/web-of-trust');
-const entityExtraction = require('./ext/entity-extraction');
+const extraction = require('./ext/extraction');
+const slander = require('./ext/slander');
 
 module.exports.check = (event, context, callback) => {
 	const origin = getOrigin(event.queryStringParameters);
@@ -13,10 +14,15 @@ module.exports.check = (event, context, callback) => {
 	// Get reputation from Web of Trust
 	const wotPromise = webOfTrust
 		.getReputation(event.stageVariables.WOT_API_KEY, articleUrl);
-	const articlePromise = entityExtraction.getArticle(articleUrl);
+	const articlePromise = extraction.getArticle(articleUrl);
 
 	Promise.all([wotPromise, articlePromise])
 		.spread(function (wotResponse, articleResponse) {
+			// Tokenize text content and check for slander terms.
+			const content = extraction.format(articleResponse);
+			const tokens = extraction.getTokens(content.text);
+			const slanderTerms = slander.terms(tokens);
+
 			const response = {
 				statusCode: 200,
 				headers: {
@@ -36,7 +42,12 @@ module.exports.check = (event, context, callback) => {
 						},
 						https: isHTTPS(articleUrl),
 						webOfTrust: webOfTrust.format(wotResponse),
-						content: articleResponse
+						slander: {
+							flag: slander.in(tokens),
+							keywords: slanderTerms.map(item => {
+								return {term: item, label: slander.label(item)};
+							})
+						}
 					}
 				})
 			};
