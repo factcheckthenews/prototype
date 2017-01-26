@@ -28,6 +28,7 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "request": "^2.79.0",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "unfluff": "^1.1.0"
   }
 }
