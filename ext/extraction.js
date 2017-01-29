@@ -78,8 +78,8 @@ function isUpperCase(token) {
 function excessivePunctuation(content) {
 	const titleMatch = content.title.match(/[!?]+/);
 	return {
-		flag: (titleMatch.length > 0),
-		tokens: titleMatch
+		flag: (titleMatch) ? (titleMatch.length > 0) : false,
+		tokens: (titleMatch) ? titleMatch : []
 	};
 }
 
