@@ -1,14 +1,14 @@
 'use strict';
 
-const url = require('url');
 const Promise = require('bluebird');
+const utilities = require('./ext/utilities');
 const openSources = require('./ext/open-sources');
 const webOfTrust = require('./ext/web-of-trust');
 const extraction = require('./ext/extraction');
 const slander = require('./ext/slander');
 
 module.exports.check = (event, context, callback) => {
-	const origin = getOrigin(event.queryStringParameters);
+	const origin = utilities.getOrigin(event.queryStringParameters);
 	const articleUrl = (event.queryStringParameters) ? event.queryStringParameters.url : '';
 
 	// Get reputation from Web of Trust
@@ -40,7 +40,7 @@ module.exports.check = (event, context, callback) => {
 							type: openSources.getReason(articleUrl),
 							credible: openSources.isCredible(articleUrl)
 						},
-						https: isHTTPS(articleUrl),
+						https: utilities.isHTTPS(articleUrl),
 						webOfTrust: webOfTrust.format(wotResponse),
 						slander: {
 							flag: slander.in(tokens),
@@ -56,26 +56,3 @@ module.exports.check = (event, context, callback) => {
 		});
 };
 
-/** @method getOrigin
- * @description Parse out the host origin for CORS
- * @param {Object} queryParams - Object with query parameters as keys
- */
-function getOrigin(queryParams) {
-	return (queryParams && queryParams.__amp_source_origin) ? queryParams.__amp_source_origin : '*';
-}
-
-/** @method getProtocol
- * @description Get the protocol out of the URL
- * @param {String} articleUrl - URL of the article
- */
-function getProtocol(articleUrl) {
-	return url.parse(articleUrl).protocol;
-}
-
-/** @method isHTTPS
- * @description Determine whether the URL is being served over HTTPS
- * @param {String} articleUrl - URL of the article
- */
-function isHTTPS(articleUrl) {
-	return (getProtocol(articleUrl) === 'https:');
-}
