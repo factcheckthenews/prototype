@@ -10,6 +10,20 @@ function getOrigin(queryParams) {
 	return (queryParams && queryParams.__amp_source_origin) ? queryParams.__amp_source_origin : '*';
 }
 
+/** @method getHeaders
+ * @description Get HTTP headers for the response
+ * @param {Object} queryParams - Object with query parameters as keys
+ */
+function getHeaders(queryParams) {
+	const origin = getOrigin(queryParams);
+	return {
+		'Access-Control-Allow-Credentials': true,
+		'Access-Control-Allow-Origin': origin,
+		'AMP-Access-Control-Allow-Source-Origin': origin,
+		'Access-Control-Expose-Headers': 'AMP-Access-Control-Allow-Source-Origin'
+	};
+}
+
 /** @method getProtocol
  * @description Get the protocol out of the URL
  * @param {String} articleUrl - URL of the article
@@ -28,6 +42,6 @@ function isHTTPS(articleUrl) {
 
 /** @module utilities */
 module.exports = {
-	getOrigin: getOrigin,
+	getHeaders: getHeaders,
 	isHTTPS: isHTTPS
 };

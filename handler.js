@@ -8,7 +8,6 @@ const extraction = require('./ext/extraction');
 const slander = require('./ext/slander');
 
 module.exports.check = (event, context, callback) => {
-	const origin = utilities.getOrigin(event.queryStringParameters);
 	const articleUrl = (event.queryStringParameters) ? event.queryStringParameters.url : '';
 
 	// Get reputation from Web of Trust
@@ -25,12 +24,7 @@ module.exports.check = (event, context, callback) => {
 
 			const response = {
 				statusCode: 200,
-				headers: {
-					'Access-Control-Allow-Credentials': true,
-					'Access-Control-Allow-Origin': origin,
-					'AMP-Access-Control-Allow-Source-Origin': origin,
-					'Access-Control-Expose-Headers': 'AMP-Access-Control-Allow-Source-Origin'
-				},
+				headers: utilities.getHeaders(event.queryStringParameters),
 				body: JSON.stringify({
 					url: articleUrl,
 					score: '¯\\_(ツ)_/¯', // TODO: implement score
