@@ -19,7 +19,7 @@ module.exports.check = (event, context, callback) => {
 		.spread(function (wotResponse, articleResponse) {
 			// Tokenize text content and check for slander terms.
 			const content = extraction.format(articleResponse);
-			const tokens = extraction.getTokens(content.text);
+			const tokens = extraction.tokenize(content.text);
 			const slanderTerms = slander.terms(tokens);
 
 			const response = {
@@ -36,6 +36,8 @@ module.exports.check = (event, context, callback) => {
 						},
 						https: utilities.isHTTPS(articleUrl),
 						webOfTrust: webOfTrust.format(wotResponse),
+						excessiveCaps: extraction.excessiveCaps(content),
+						punctuation: extraction.punctuation(content),
 						slander: {
 							flag: slander.in(tokens),
 							keywords: slanderTerms.map(item => {
