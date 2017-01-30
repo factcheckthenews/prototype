@@ -34,11 +34,9 @@ function formatResponse(wotResponse) {
 	if (!wotResponse[domain]['0']) {
 		// Bail if the response doesn't contain a reputation
 		return {
-			trustworthiness: {
-				reputation: 0,
-				confidence: 0,
-				description: 'Unknown'
-			},
+			reputation: 0,
+			confidence: 0,
+			description: 'Unknown',
 			categories: []
 		};
 	}
@@ -48,11 +46,9 @@ function formatResponse(wotResponse) {
 	const categories = Object.keys(wotResponse[domain].categories);
 
 	return {
-		trustworthiness: {
-			reputation: reputation,
-			confidence: confidence,
-			description: getDescription(reputation)
-		},
+		reputation: reputation,
+		confidence: confidence,
+		description: getDescription(reputation),
 		categories: categories.filter(x => {
 			// Only use categories over 50% confidence
 			return wotResponse[domain].categories[x] >= 50;
