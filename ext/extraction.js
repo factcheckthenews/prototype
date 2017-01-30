@@ -4,7 +4,7 @@ const requestPromise = require('request-promise');
 const extractor = require('unfluff');
 
 // Defines threshold for flagging excessive capitalization.
-const ALL_CAPS_THRESHOLD = 0.2;
+const ALL_CAPS_THRESHOLD = 20;
 
 /** @method fetchArticle
  * @description Fetch article from HTTP request
