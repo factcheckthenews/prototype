@@ -55,7 +55,7 @@ module.exports.check = (event, context, callback) => {
 						},
 						https: httpsCheck,
 						webOfTrust: wotCheck,
-						excessiveCaps: capitalizationCheck,
+						capitalization: capitalizationCheck,
 						punctuation: punctuationCheck,
 						slander: {
 							flag: slanderCheck,
