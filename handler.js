@@ -6,6 +6,7 @@ const openSources = require('./ext/open-sources');
 const webOfTrust = require('./ext/web-of-trust');
 const extraction = require('./ext/extraction');
 const slander = require('./ext/slander');
+const credibility = require('./ext/credibility');
 
 module.exports.check = (event, context, callback) => {
 	const articleUrl = (event.queryStringParameters) ? event.queryStringParameters.url : '';
@@ -22,24 +23,42 @@ module.exports.check = (event, context, callback) => {
 			const tokens = extraction.tokenize(content.text);
 			const slanderTerms = slander.terms(tokens);
 
+			// Check criteria
+			const openSourcesCheck = openSources.isFlagged(articleUrl);
+			const httpsCheck = utilities.isHTTPS(articleUrl);
+			const wotCheck = webOfTrust.format(wotResponse);
+			const capitalizationCheck = extraction.excessiveCaps(content);
+			const punctuationCheck = extraction.punctuation(content);
+			const slanderCheck = slander.in(tokens);
+
+			// Calculate the score
+			const score = credibility.score({
+				opensourcesFlagged: openSourcesCheck,
+				https: httpsCheck,
+				webOfTrust: wotCheck,
+				capitalization: capitalizationCheck,
+				punctuation: punctuationCheck,
+				slander: slanderCheck
+			});
+
 			const response = {
 				statusCode: 200,
 				headers: utilities.getHeaders(event.queryStringParameters),
 				body: JSON.stringify({
 					url: articleUrl,
-					score: '¯\\_(ツ)_/¯', // TODO: implement score
+					score: score,
 					criteria: {
 						opensources: {
-							flag: openSources.isFlagged(articleUrl),
+							flag: openSourcesCheck,
 							type: openSources.getReason(articleUrl),
 							credible: openSources.isCredible(articleUrl)
 						},
-						https: utilities.isHTTPS(articleUrl),
-						webOfTrust: webOfTrust.format(wotResponse),
-						excessiveCaps: extraction.excessiveCaps(content),
-						punctuation: extraction.punctuation(content),
+						https: httpsCheck,
+						webOfTrust: wotCheck,
+						excessiveCaps: capitalizationCheck,
+						punctuation: punctuationCheck,
 						slander: {
-							flag: slander.in(tokens),
+							flag: slanderCheck,
 							keywords: slanderTerms.map(item => {
 								return {term: item, label: slander.label(item)};
 							})
