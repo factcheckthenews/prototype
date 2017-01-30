@@ -10,7 +10,7 @@ function score(criteria) {
 	const punctuation = (criteria.punctuation.flag) ? 0 : 10;
 	const slander = (criteria.slander.flag) ? 0 : 10;
 	const opensources = (criteria.opensourcesFlagged) ? 0 : 30;
-	const webOfTrust = criteria.webOfTrust.trustworthiness.reputation * 0.3;
+	const webOfTrust = criteria.webOfTrust.reputation * 0.3;
 
 	return https +
     capitalization +
