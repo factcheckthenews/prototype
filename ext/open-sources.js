@@ -68,6 +68,5 @@ function domain(url) {
 module.exports = {
 	isFlagged: flag,
 	getReason: flagType,
-	isCredible: credible,
-	classify: classify
+	isCredible: credible
 };
