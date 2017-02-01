@@ -1,5 +1,8 @@
 # Prototype
 
+[![Build Status](https://travis-ci.org/factcheckthenews/prototype.svg?branch=master)](https://travis-ci.org/factcheckthenews/prototype)
+[![OpenSources Data](https://img.shields.io/badge/Data-OpenSources-blue.svg)](http://opensources.co)
+
 This is a prototype for the factcheckthe.news API.
 
 ## Motivation
