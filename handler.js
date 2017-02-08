@@ -17,7 +17,7 @@ module.exports.check = (event, context, callback) => {
 	const articlePromise = extraction.getArticle(articleUrl);
 
 	Promise.all([wotPromise, articlePromise])
-		.spread(function (wotResponse, articleResponse) {
+		.spread((wotResponse, articleResponse) => {
 			// Tokenize text content and check for slander terms.
 			const content = extraction.format(articleResponse);
 			const tokens = extraction.tokenize(content.text);
@@ -68,6 +68,18 @@ module.exports.check = (event, context, callback) => {
 			};
 
 			callback(null, response);
+		})
+		.catch(err => {
+			// Send the error to CloudWatch
+			console.log(err);
+			callback(null, {
+				statusCode: 200,
+				headers: utilities.getHeaders(event.queryStringParameters),
+				body: JSON.stringify({
+					url: articleUrl,
+					error: true
+				})
+			});
 		});
 };
 
