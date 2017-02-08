@@ -3,6 +3,15 @@
 const url = require('url');
 const requestPromise = require('request-promise');
 
+// Give a perfect score with zero confidence when reputation cannot
+// be determined, so we don't penalize result for lack of data
+const emptyResponse = {
+	reputation: 100,
+	confidence: 0,
+	description: 'Unknown',
+	categories: []
+};
+
 /** @method fetchReputation
  * @description Fetch reputation from Web of Trust api
  * @param {String} apiKey - Web Of Trust API Key
@@ -29,16 +38,10 @@ function fetchReputation(apiKey, articleUrl) {
 function formatResponse(wotResponse) {
 	// Pull the reputation information out of the API
 	// https://www.mywot.com/wiki/API#public_link_json2
-	const domain = Object.keys(wotResponse)[0];
-
-	if (!wotResponse[domain]['0']) {
-		// Bail if the response doesn't contain a reputation
-		return {
-			reputation: 0,
-			confidence: 0,
-			description: 'Unknown',
-			categories: []
-		};
+	const domain = (wotResponse) ? Object.keys(wotResponse)[0] : 'unknown';
+	if (!wotResponse || !wotResponse[domain]['0']) {
+		// Bail if the response is empty or doesn't contain a reputation
+		return emptyResponse;
 	}
 
 	const reputation = wotResponse[domain]['0'][0];
