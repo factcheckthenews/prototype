@@ -12,12 +12,16 @@ function score(criteria) {
 	const opensources = (criteria.opensourcesFlagged) ? 0 : 30;
 	const webOfTrust = criteria.webOfTrust.reputation * 0.3;
 
-	return https +
-    capitalization +
-    punctuation +
-    slander +
-    opensources +
-    webOfTrust;
+	const aggregate = Math.round(
+		https +
+		capitalization +
+		punctuation +
+		slander +
+		opensources +
+		webOfTrust
+	);
+
+	return aggregate;
 }
 
 module.exports = {
