@@ -7,6 +7,7 @@ const webOfTrust = require('./ext/web-of-trust');
 const extraction = require('./ext/extraction');
 const slander = require('./ext/slander');
 const credibility = require('./ext/credibility');
+const deceptiveDomain = require('./ext/deceptive-domain');
 
 module.exports.check = (event, context, callback) => {
 	const articleUrl = (event.queryStringParameters) ? event.queryStringParameters.url : '';
@@ -30,17 +31,20 @@ module.exports.check = (event, context, callback) => {
 			const capitalizationCheck = extraction.excessiveCaps(content);
 			const punctuationCheck = extraction.punctuation(content);
 			const slanderCheck = slander.in(tokens);
+			const domainCheck = deceptiveDomain.check(articleUrl);
 
 			// Calculate the score
 			const score = credibility.score({
 				opensourcesFlagged: openSourcesCheck,
 				https: httpsCheck,
+				deceptiveDomain: domainCheck,
 				webOfTrust: wotCheck,
 				capitalization: capitalizationCheck,
 				punctuation: punctuationCheck,
 				slander: slanderCheck
 			});
 
+			// Format the response with criteria
 			const response = {
 				statusCode: 200,
 				headers: utilities.getHeaders(event.queryStringParameters),
@@ -54,6 +58,7 @@ module.exports.check = (event, context, callback) => {
 							credible: openSources.isCredible(articleUrl)
 						},
 						https: httpsCheck,
+						deceptiveDomain: domainCheck,
 						webOfTrust: wotCheck,
 						capitalization: capitalizationCheck,
 						punctuation: punctuationCheck,

@@ -4,6 +4,7 @@ import credibility from '../ext/credibility';
 test('perfect score is 100', t => {
 	const criteria = {
 		https: true,
+		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
 		slander: {flag: false},
@@ -17,6 +18,21 @@ test('perfect score is 100', t => {
 test('no https results in 10% deduction', t => {
 	const criteria = {
 		https: false,
+		deceptiveDomain: false,
+		capitalization: {title: {flag: false}},
+		punctuation: {flag: false},
+		slander: {flag: false},
+		opensourcesFlagged: false,
+		webOfTrust: {reputation: 100}
+	};
+
+	t.is(credibility.score(criteria), 90);
+});
+
+test('deceptive domain results in 10% deduction', t => {
+	const criteria = {
+		https: true,
+		deceptiveDomain: true,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
 		slander: {flag: false},
@@ -30,6 +46,7 @@ test('no https results in 10% deduction', t => {
 test('excessive all caps results in 10% deduction', t => {
 	const criteria = {
 		https: true,
+		deceptiveDomain: false,
 		capitalization: {title: {flag: true}},
 		punctuation: {flag: false},
 		slander: {flag: false},
@@ -43,6 +60,7 @@ test('excessive all caps results in 10% deduction', t => {
 test('excessive punctuation results in 10% deduction', t => {
 	const criteria = {
 		https: true,
+		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: true},
 		slander: {flag: false},
@@ -56,6 +74,7 @@ test('excessive punctuation results in 10% deduction', t => {
 test('slander results in 10% deduction', t => {
 	const criteria = {
 		https: true,
+		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
 		slander: {flag: true},
@@ -66,9 +85,10 @@ test('slander results in 10% deduction', t => {
 	t.is(credibility.score(criteria), 90);
 });
 
-test('being flagged by opensources results in 30% deduction', t => {
+test('being flagged by opensources results in 25% deduction', t => {
 	const criteria = {
 		https: true,
+		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
 		slander: {flag: false},
@@ -76,12 +96,13 @@ test('being flagged by opensources results in 30% deduction', t => {
 		webOfTrust: {reputation: 100}
 	};
 
-	t.is(credibility.score(criteria), 70);
+	t.is(credibility.score(criteria), 75);
 });
 
 test('worst score is 0', t => {
 	const criteria = {
 		https: false,
+		deceptiveDomain: true,
 		capitalization: {title: {flag: true}},
 		punctuation: {flag: true},
 		slander: {flag: true},
