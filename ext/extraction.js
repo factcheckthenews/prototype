@@ -89,7 +89,7 @@ function excessivePunctuation(content) {
  * @returns array of tokens
  */
 function tokenize(text) {
-	return text.split(/\s|\(|\)|\[|\]|[,.!?:'"`“”]/).filter(w => w.length > 1);
+	return text.split(/\s|\(|\)|\[|\]|[,.!?:'"`“”]/).filter(w => w.length > 0);
 }
 
 /** @module extraction */
