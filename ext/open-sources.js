@@ -41,7 +41,10 @@ function flagType(url) {
  * @param {String} url - HTTP URL to check
  */
 function credible(url) {
-	return credibleSources.some(source => source.url === domain(url));
+	if (credibleSources[domain(url)]) {
+		return true;
+	}
+	return false;
 }
 
 /** @method classify
