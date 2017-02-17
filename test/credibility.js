@@ -7,7 +7,7 @@ test('perfect score is 100', t => {
 		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
-		slander: {flag: false},
+		slander: false,
 		opensourcesFlagged: false,
 		webOfTrust: {reputation: 100}
 	};
@@ -21,7 +21,7 @@ test('no https results in 10% deduction', t => {
 		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
-		slander: {flag: false},
+		slander: false,
 		opensourcesFlagged: false,
 		webOfTrust: {reputation: 100}
 	};
@@ -35,7 +35,7 @@ test('deceptive domain results in 10% deduction', t => {
 		deceptiveDomain: true,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
-		slander: {flag: false},
+		slander: false,
 		opensourcesFlagged: false,
 		webOfTrust: {reputation: 100}
 	};
@@ -49,7 +49,7 @@ test('excessive all caps results in 10% deduction', t => {
 		deceptiveDomain: false,
 		capitalization: {title: {flag: true}},
 		punctuation: {flag: false},
-		slander: {flag: false},
+		slander: false,
 		opensourcesFlagged: false,
 		webOfTrust: {reputation: 100}
 	};
@@ -63,7 +63,7 @@ test('excessive punctuation results in 10% deduction', t => {
 		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: true},
-		slander: {flag: false},
+		slander: false,
 		opensourcesFlagged: false,
 		webOfTrust: {reputation: 100}
 	};
@@ -77,7 +77,7 @@ test('slander results in 10% deduction', t => {
 		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
-		slander: {flag: true},
+		slander: true,
 		opensourcesFlagged: false,
 		webOfTrust: {reputation: 100}
 	};
@@ -91,7 +91,7 @@ test('being flagged by opensources results in 25% deduction', t => {
 		deceptiveDomain: false,
 		capitalization: {title: {flag: false}},
 		punctuation: {flag: false},
-		slander: {flag: false},
+		slander: false,
 		opensourcesFlagged: true,
 		webOfTrust: {reputation: 100}
 	};
@@ -105,7 +105,7 @@ test('worst score is 0', t => {
 		deceptiveDomain: true,
 		capitalization: {title: {flag: true}},
 		punctuation: {flag: true},
-		slander: {flag: true},
+		slander: true,
 		opensourcesFlagged: true,
 		webOfTrust: {reputation: 0}
 	};

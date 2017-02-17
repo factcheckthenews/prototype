@@ -57,9 +57,11 @@ function contains(collection) {
  * @returns array of slander terms used
  */
 function terms(collection) {
-	return collection.filter(word => {
-		return (word in slanderTerms);
-	});
+	return Array.from(new Set(
+		collection.filter(word => {
+			return (word in slanderTerms);
+		})
+	));
 }
 
 /** @method spectrumLabel
