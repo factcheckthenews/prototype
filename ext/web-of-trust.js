@@ -46,7 +46,7 @@ function formatResponse(wotResponse) {
 
 	const reputation = wotResponse[domain]['0'][0];
 	const confidence = wotResponse[domain]['0'][1];
-	const categories = Object.keys(wotResponse[domain].categories);
+	const categories = (wotResponse[domain].categories) ? Object.keys(wotResponse[domain].categories) : [];
 
 	return {
 		reputation: reputation,
