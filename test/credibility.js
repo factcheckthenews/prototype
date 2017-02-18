@@ -15,7 +15,7 @@ test('perfect score is 100', t => {
 	t.is(credibility.score(criteria), 100);
 });
 
-test('no https results in 10% deduction', t => {
+test('no https results in 15% deduction', t => {
 	const criteria = {
 		https: false,
 		deceptiveDomain: false,
@@ -26,10 +26,10 @@ test('no https results in 10% deduction', t => {
 		webOfTrust: {reputation: 100}
 	};
 
-	t.is(credibility.score(criteria), 90);
+	t.is(credibility.score(criteria), 85);
 });
 
-test('deceptive domain results in 10% deduction', t => {
+test('deceptive domain results in 15% deduction', t => {
 	const criteria = {
 		https: true,
 		deceptiveDomain: true,
@@ -40,10 +40,10 @@ test('deceptive domain results in 10% deduction', t => {
 		webOfTrust: {reputation: 100}
 	};
 
-	t.is(credibility.score(criteria), 90);
+	t.is(credibility.score(criteria), 85);
 });
 
-test('excessive all caps results in 10% deduction', t => {
+test('excessive all caps results in 15% deduction', t => {
 	const criteria = {
 		https: true,
 		deceptiveDomain: false,
@@ -54,10 +54,10 @@ test('excessive all caps results in 10% deduction', t => {
 		webOfTrust: {reputation: 100}
 	};
 
-	t.is(credibility.score(criteria), 90);
+	t.is(credibility.score(criteria), 85);
 });
 
-test('excessive punctuation results in 10% deduction', t => {
+test('excessive punctuation results in 15% deduction', t => {
 	const criteria = {
 		https: true,
 		deceptiveDomain: false,
@@ -68,10 +68,10 @@ test('excessive punctuation results in 10% deduction', t => {
 		webOfTrust: {reputation: 100}
 	};
 
-	t.is(credibility.score(criteria), 90);
+	t.is(credibility.score(criteria), 85);
 });
 
-test('slander results in 10% deduction', t => {
+test('slander results in 15% deduction', t => {
 	const criteria = {
 		https: true,
 		deceptiveDomain: false,
@@ -82,7 +82,7 @@ test('slander results in 10% deduction', t => {
 		webOfTrust: {reputation: 100}
 	};
 
-	t.is(credibility.score(criteria), 90);
+	t.is(credibility.score(criteria), 85);
 });
 
 test('being flagged by opensources results in 25% deduction', t => {
