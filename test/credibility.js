@@ -15,7 +15,7 @@ test('perfect score is 100', t => {
 	t.is(credibility.score(criteria), 100);
 });
 
-test('no https results in 15% deduction', t => {
+test('no https results in 5% deduction', t => {
 	const criteria = {
 		https: false,
 		deceptiveDomain: false,
@@ -26,7 +26,7 @@ test('no https results in 15% deduction', t => {
 		webOfTrust: {reputation: 100}
 	};
 
-	t.is(credibility.score(criteria), 85);
+	t.is(credibility.score(criteria), 95);
 });
 
 test('deceptive domain results in 15% deduction', t => {
@@ -85,7 +85,7 @@ test('slander results in 15% deduction', t => {
 	t.is(credibility.score(criteria), 85);
 });
 
-test('being flagged by opensources results in 25% deduction', t => {
+test('being flagged by opensources results in 35% deduction', t => {
 	const criteria = {
 		https: true,
 		deceptiveDomain: false,
@@ -96,7 +96,7 @@ test('being flagged by opensources results in 25% deduction', t => {
 		webOfTrust: {reputation: 100}
 	};
 
-	t.is(credibility.score(criteria), 75);
+	t.is(credibility.score(criteria), 65);
 });
 
 test('worst score is 0', t => {
