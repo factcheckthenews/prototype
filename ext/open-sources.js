@@ -1,7 +1,6 @@
 'use strict';
 
-const credibleSources = require('../data/credible');
-const flaggedSources = require('../data/notCredible');
+const flaggedSources = require('../data/opensources');
 
 const category = {
 	bias: 'Extreme Bias',
@@ -36,17 +35,6 @@ function flagType(url) {
 	return (flaggedSources[domain(url)]) ? classify(flaggedSources[domain(url)].type) : null;
 }
 
-/** @method credible
- * @description Whether the website has been curated as a credible source
- * @param {String} url - HTTP URL to check
- */
-function credible(url) {
-	if (credibleSources[domain(url)]) {
-		return true;
-	}
-	return false;
-}
-
 /** @method classify
  * @description Converts opensources classification type to friendly message
  * @param {String} input - opensources classification type
@@ -70,6 +58,5 @@ function domain(url) {
 
 module.exports = {
 	isFlagged: flag,
-	getReason: flagType,
-	isCredible: credible
+	getReason: flagType
 };

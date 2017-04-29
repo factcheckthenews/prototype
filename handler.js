@@ -54,8 +54,7 @@ module.exports.check = (event, context, callback) => {
 					criteria: {
 						opensources: {
 							flag: openSourcesCheck,
-							type: openSources.getReason(articleUrl),
-							credible: openSources.isCredible(articleUrl)
+							type: openSources.getReason(articleUrl)
 						},
 						https: httpsCheck,
 						deceptiveDomain: domainCheck,
